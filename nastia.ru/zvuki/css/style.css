@@ -1,0 +1,104 @@
+
+html, body {
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  height: 100%;
+  background:#222;
+  text-align:center;  
+  font-family:"Verdana";
+  color: #fff;
+}
+
+/* Make text unselectable by default.
+   Any selectable text needs to be
+   explicitly identified.
+*/
+body * {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+section {
+  display: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+section.active {
+  display: block;
+}
+
+#index {
+  background-color: #669;
+}
+
+#index > div {
+
+}
+
+#index > div div {
+
+}
+
+#index span {
+  box-sizing: border-box;
+  display: inline-block;
+
+  font-size: 12vmin;
+  width: 16vmin;
+  height: 16vmin;
+  line-height: 16vmin; /* centres text vertically */
+  text-align: center;
+
+  border: 1px solid #ccf;
+  border-right-color: #99c;
+  border-bottom-color: #99c;
+  border-radius: 0.2em;
+
+  color: #99c;
+  background-color: #669;
+}
+
+#index span.disabled {
+  border-color: #669;
+  color: #669;
+  background-color: #77a;
+}
+
+#index:not(.ignore-rollover) span:not(.disabled):not(.selected):hover {
+  border-color: #fff;
+  border-right-color: #669;
+  border-bottom-color: #669;
+  color: #ccf;
+}
+
+#index span.selected {
+  border-color: #669;
+  border-right-color: #ccf;
+  border-bottom-color: #ccf;
+  background-color: #336;
+  color: #fff;
+}
+
+#index span.dimmed {
+  border-color: #88b;
+  border-right-color: #aad;
+  border-bottom-color: #aad;
+  background-color: #558;
+  color: #bbe;
+}
+
+#index span.pressed {
+  border-color: #669;
+  border-right-color: #ccf;
+  border-bottom-color: #ccf;
+  background-color: #336;
+  color: #ccf;
+}
