@@ -157,7 +157,7 @@ var index = new Index()
         , "Хорошо прожаренный |бекон."
         , "На лугу пасётся |бык."
         , "Мне нужна |булавка."
-        , "Олимпийский вид спорта |- бокс."
+        , "Олимпийский вид спорта – |бокс."
         , "В кафе предлагают нежный |бисквит."
         , "Что можно сделать из этого |бисера?"
         , "Купи в аптеке |бинт."
@@ -319,12 +319,14 @@ var index = new Index()
     this.back = document.querySelector("#activity button.back")
     this.next = document.querySelector("#activity button.next")
 
-    this.done = document.querySelector("#activity .progress p")
+    this.counter = document.querySelector("#activity .progress p")
+    this.done = document.querySelector("#activity .progress .done")
 
-    toggleEventListeners("on", this.back, "mouseup touchend", go)
-    toggleEventListeners("on", this.next, "mouseup touchend", go)
+    toggleEventListeners("on", this.back, "mouseup", go)
+    toggleEventListeners("on", this.next, "mouseup", go)
 
     function go(event) {
+      // FRAGILE *** FRAGILE *** FRAGILE //
       var ref = event.target.textContent.toLowerCase()
       that.goPhrase(ref)
     }
@@ -347,10 +349,13 @@ var index = new Index()
     this.audio.src = media.audio
     setPhrase(media.phrase)
 
+    // Buttons
     this.back.disabled = (media.disabled === "back")
     this.next.disabled = (media.disabled === "next")
 
-    this.done.textContent = (ref + 1) + "/" + (media.total + 1)
+    // Progress
+    this.counter.textContent = (ref + 1) + "/" + (media.total + 1)
+    this.done.style.width = (((ref+1) * 100) / (media.total+1)) + "%"
 
     function setPhrase(text) {
       var result = regex.exec(text)
@@ -363,7 +368,13 @@ var index = new Index()
         cue = cue.replace(" $", "&nbsp;")
       }
 
-      content = "<p>"+cue+"<span>"+target+"</span>"+end+"</>"
+      content = "<p class='editable'>"
+              + cue
+              + "<span class='editable'>"
+              + target
+              + "</span>"
+              + end
+              + "</>"
 
       phrase.innerHTML = content
     }

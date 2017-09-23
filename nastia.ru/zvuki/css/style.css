@@ -154,6 +154,10 @@ section#activity.active {
       flex: 1;
     }
 
+#activity p {
+  margin: 0;
+}
+
 #activity div.phrase {
   font-size: 4vh;
   flex: 1;
@@ -162,7 +166,6 @@ section#activity.active {
 }
 
   #activity div.phrase span{
-    margin: 0;
     font-weight: bold;
 
     color: #000;
@@ -208,13 +211,13 @@ div.controls {
     div.progress {
       width: 100%;
       flex: 1;
-      background-color: #343;
+      /*background-color: #343;*/
       position: relative;
     }
 
         div.progress div.done {
-          background-color: #464;
-          width: 33%;
+          background-color: #363;
+          width: 0%;
           height: 100%;
         }
 
