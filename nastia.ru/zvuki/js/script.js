@@ -9,7 +9,7 @@ window.addEventListener("load",function() {
 
 // INSTANCES //
 
-var sectionNavigator = new SectionNavigator()
+var controller = new Controller()
 var database = new Database()
 var activity = new Activity()
 var phraseData = new PhraseData()
@@ -21,9 +21,9 @@ var index = new Index()
  * OBJECTS
  */
 
-// <SECTION NAVIGATOR
+// <CONTROLLER
 
-  function SectionNavigator() {
+  function Controller() {
     this.sectionMap = (function () {
       var sections = document.querySelectorAll("section")
       var map = {}
@@ -40,7 +40,7 @@ var index = new Index()
     this.activeSection = this.sectionMap.splash
   }
 
-  SectionNavigator.prototype.go = function go(sectionId) {
+  Controller.prototype.goSection = function goSection(sectionId) {
     if (this.activeSection.id === sectionId) {
       return
     }
@@ -49,7 +49,7 @@ var index = new Index()
     this.activeSection = this.sectionMap[sectionId]
     this.activeSection.classList.add("active")
   }
-// SECTION NAVIGATOR>
+// CONTROLLER>
 
 
 // <DATABASE
@@ -102,7 +102,6 @@ var index = new Index()
         , "img/Б/320-children-433165_640.jpg"
         , "img/Б/320-butterfly-142506_640.jpg"
         , "img/Б/320-beads-363644_640.jpg"
-        , "img/Б/320-barrels-340004_640.jpg"
         , "img/Б/320-back-yard-183298_640.jpg"
         , "img/Б/320-anniversary-2436_640.jpg"
         , "img/Б/320-alphabet-150764_640.jpg"
@@ -126,7 +125,6 @@ var index = new Index()
         , "img/Б/320-alphabet-150764_640.jpg"
         , "img/Б/320-anniversary-2436_640.jpg"
         , "img/Б/320-back-yard-183298_640.jpg"
-        , "img/Б/320-barrels-340004_640.jpg"
         , "img/Б/320-beads-363644_640.jpg"
         , "img/Б/320-butterfly-142506_640.jpg"
         , "img/Б/320-children-433165_640.jpg"
@@ -155,39 +153,39 @@ var index = new Index()
 
       , phrase: [
           "Костюм фехтовальщика |белый."
-        , "У меня новые |ботинки"
+        , "Русский народный инструмент |балалайка."
+        , "Хорошо прожаренный |бекон."
+        , "На лугу пасётся |бык."
+        , "Мне нужна |булавка."
         , "Олимпийский вид спорта |- бокс."
         , "В кафе предлагают нежный |бисквит."
-        , "На ферме много |баранов."
-        , "Бусы из |бирюзы."
-        , "Сегодня идём на |балет."
-        , "Возле дома растёт |берёза."
-        , "В зоопарке живёт милашка- … бегемот."
+        , "Что можно сделать из этого |бисера?"
         , "Купи в аптеке |бинт."
         , "Полевой |бинокль."
-        , "Что можно сделать из этого |бисера?"
-        , "Мне нужна |булавка."
-        , "Русский народный инструмент |балалайка."
-        , "Хорошо прожаренный бекон."
-        , "На лугу пасётся |бык."
-        , "Завтра к нам приедет |бабушка."
-        , "Старая |башня."
-        , "Сколько стоит эта |булка?"
+        , "На ферме много |баранов."
+        , "В зоопарке живёт милашка-|бегемот."
+        , "Возле дома растёт |берёза."
+        , "Бусы из |бирюзы."
+        , "Сегодня идём на |балет."
         , "Какая красивая |бабочка!"
         , "Мой папа работает на |бирже."
         , "Наша машина |белая."
         , "Давай подарим маме |бусы!"
         , "Какая это |буква?"
-        , "Школьники играют в |баскетбол."
+        , "Старая |башня."
         , "Каждое утро звонит |будильник."
-        , "Красивый |букет."
         , "Дети любят прыгать и |бегать."
+        , "Школьники играют в |баскетбол."
         , "У Саши |барабан."
-        , "В зоопарке живёт |белка."
-        , "Пожалуйста, не говорите |быстро."
+        , "Красивый |букет."
         , "Сколько литров в этих |бочках?"
         , "Пожалуйста, покажите Ваш |билет."
         , "Не может |быть!"
+        , "В зоопарке живёт |белка."
+        , "Завтра к нам приедет |бабушка."
+        , "Пожалуйста, не говорите |быстро."
+        , "Сколько стоит эта |булка?"
+        , "У меня новые |ботинки"
         ]
 
       , audio: []
@@ -253,29 +251,53 @@ var index = new Index()
   /**
    * Gets the media for the given phrase
    *
-   * @param {number|string}  ref  index (0 - n) | "next" | "prev"
+   * @param {number|string}  ref  index (0 - n) | "next" | "back"
    */
   PhraseData.prototype.getMedia = function getMedia(ref) {
     var media = {}
 
-    ref = isNaN(ref)
-          ? ref === "next"
-            ? this.index < this.last
-              ? this.index + 1   // next
-              : 0                // loop back to beginning
-            : ref === "prev"
-              ? this.index > 0
-                ? this.index - 1 // previous
-                : this.last      // loop round to end
-              : this.index       // invalid word, no change
-          : (ref < 0 || ref > this.last)
-            ? this.index         // invalid index, no change
-            : ref
+    // ref = isNaN(ref)
+    //     ? ref === "next"
+    //       ? this.index < this.last
+    //         ? this.index + 1   // next
+    //         : 0                // loop back to beginning
+    //       : ref === "back"
+    //         ? this.index > 0
+    //           ? this.index - 1 // previous
+    //           : this.last      // loop round to end
+    //         : this.index       // invalid word, no change
+    //     : (ref < 0 || ref > this.last)
+    //       ? this.index         // invalid index, no change
+    //       : ref
+    if (ref === "next") {
+      if (this.index < this.last) {
+        ref = this.index + 1
+      } else {
+        ref = 0 // loop back to the beginning
+      }
+    } else if (ref === "back") {
+      if (this.index > 0) {
+        ref = this.index - 1
+      } else {
+        ref = this.last
+      }
+    } else if (ref < 0 || ref > this.last) {
+      ref = this.index
+    }
+
+    this.index = ref
 
     media.phrase = this.data.phrase[ref]
     media.image = this.data.image[ref]
     media.audio = this.data.audio[ref]
     media.video = this.data.video[ref]
+    media.ref = ref
+    media.disabled = ref === 0
+                   ? "back"
+                   : ref === this.last
+                     ? "next"
+                     : 0
+    media.total = this.last
 
     return media
   }
@@ -285,12 +307,66 @@ var index = new Index()
 // <ACTIVITY (stub)
 
   function Activity() {
+    that = this
 
+
+    this.image = document.querySelector("#activity .image")
+    this.video = document.querySelector("#activity .video")
+    this.audio = {} // TODO
+    this.phrase = document.querySelector("#activity .phrase")
+    // TODO: add target span
+    
+    this.back = document.querySelector("#activity button.back")
+    this.next = document.querySelector("#activity button.next")
+
+    this.done = document.querySelector("#activity .progress p")
+
+    toggleEventListeners("on", this.back, "mouseup touchend", go)
+    toggleEventListeners("on", this.next, "mouseup touchend", go)
+
+    function go(event) {
+      var ref = event.target.textContent.toLowerCase()
+      that.goPhrase(ref)
+    }
   }
 
   Activity.prototype.select = function select(token) {
     phraseData.setDataFor(token)
-    console.log(token)
+    this.goPhrase(0)
+  }
+
+  Activity.prototype.goPhrase = function goPhrase(ref) {
+    var regex = /(.*?)\|([а-яёА-ЯЁ]+)([.!?"']*)/
+
+    var phrase = this.phrase
+    var media = phraseData.getMedia(ref)
+    ref = media.ref // "back" and "next" changed to an index number
+                      
+    this.image.style.backgroundImage = "url('"+media.image+"')"
+    this.video.style.backgroundImage = "url('"+media.video+"')"
+    this.audio.src = media.audio
+    setPhrase(media.phrase)
+
+    this.back.disabled = (media.disabled === "back")
+    this.next.disabled = (media.disabled === "next")
+
+    this.done.textContent = (ref + 1) + "/" + (media.total + 1)
+
+    function setPhrase(text) {
+      var result = regex.exec(text)
+      var cue = result[1]
+      var target = result[2]
+      var end = result[3]
+      var content
+
+      if (cue.slice(-1) === " "){
+        cue = cue.replace(" $", "&nbsp;")
+      }
+
+      content = "<p>"+cue+"<span>"+target+"</span>"+end+"</>"
+
+      phrase.innerHTML = content
+    }
   }
 // ACTIVITY>
 
@@ -389,7 +465,7 @@ var index = new Index()
 
     function startActivity(token) {
       activity.select(token)
-      sectionNavigator.go("activity")
+      controller.goSection("activity")
     }
   }
 
@@ -414,7 +490,7 @@ var index = new Index()
     window.clearTimeout(timeOut)
     timeOut = 0
 
-    sectionNavigator.go("index")
+    controller.goSection("index")
   }
 })()
 

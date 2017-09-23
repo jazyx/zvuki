@@ -35,6 +35,16 @@ section.active {
   display: block;
 }
 
+.editable {
+  -webkit-touch-callout: text; /* iOS Safari */
+    -webkit-user-select: text; /* Safari */
+     -khtml-user-select: text; /* Konqueror HTML */
+       -moz-user-select: text; /* Firefox */
+        -ms-user-select: text; /* Internet Explorer/Edge */
+            user-select: text; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
 /* <INDEX */
 
   #index {
@@ -144,15 +154,28 @@ section#activity.active {
       flex: 1;
     }
 
-#activity div.text {
-  font-size: 2.5vh;
+#activity div.phrase {
+  font-size: 4vh;
   flex: 1;
   display: flex;
   justify-content: center;
 }
 
-  #activity p {
+  #activity div.phrase span{
     margin: 0;
+    font-weight: bold;
+
+    color: #000;
+    /*text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);*/
+  }
+
+  #activity div.phrase span.active{   
+    background-color: #000;
+    color: transparent;
+    text-shadow: 0px 2px 2px rgba(255,255,255,0.3);
+    -webkit-background-clip: text;
+       -moz-background-clip: text;
+            background-clip: text;
   }
 
 div.controls {
@@ -168,11 +191,14 @@ div.controls {
       display: flex;
       justify-content: space-around;
     }
-
         #activity button{
           height: 100%;
           flex: 1;
           font-size: 3vw
+        }
+
+        #activity button:disabled{
+          opacity: 0.5;
         }
 
         #activity button:nth-child(3){
@@ -204,32 +230,15 @@ div.controls {
     flex-direction: column;
   }
 
-  #activity div.text{
-    align-items: center;
-  }
-
-/*  #activity div div{
-    width: 100%;
-    height: 50%;
-  }*/
-
-  #activity p {
+  #activity div.phrase {
     font-size: 2.5vh;
+    align-items: center;
   }
 }
 
 @media screen and (orientation: landscape) {
-  #activity div.text{
+  #activity div.phrase{
     align-items: flex-start;
   }
-
-/*  #activity div div{
-    flex: 1;
-  }
-*/
-  #activity p {
-    font-size: 2.5vw;
-  }
-
 }
 /* ACTIVITY> */
