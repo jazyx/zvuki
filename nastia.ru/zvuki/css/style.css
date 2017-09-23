@@ -148,6 +148,7 @@ section#activity.active {
       background-image: url('../img/Б/fencing.jpg');
       background-repeat: no-repeat;
       background-position: center;
+      opacity: 0.2;
     }
 
     #activity div.display div {
@@ -164,6 +165,17 @@ section#activity.active {
   display: flex;
   justify-content: center;
 }
+
+  #activity div.phrase p,
+  #activity div.phrase span {
+  -webkit-touch-callout: text; /* iOS Safari */
+    -webkit-user-select: text; /* Safari */
+     -khtml-user-select: text; /* Konqueror HTML */
+       -moz-user-select: text; /* Firefox */
+        -ms-user-select: text; /* Internet Explorer/Edge */
+            user-select: text; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+  }
 
   #activity div.phrase span{
     font-weight: bold;
